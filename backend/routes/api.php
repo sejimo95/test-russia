@@ -19,9 +19,9 @@ Route::prefix('v1')->group( function () {
     Route::prefix('panel')
 //        ->middleware('auth:api')
         ->group( function () {
-        Route::get('deals', [DealController::class, 'index']);
-        Route::get('contact', [ContactController::class, 'store']);
+            Route::get('deals', [DealController::class, 'index']);
+            Route::get('contact', [ContactController::class, 'store']);
 
-    });
+        });
 
 });

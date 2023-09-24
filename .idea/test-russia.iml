@@ -111,6 +111,26 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/translation" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/string" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/process" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/fakerphp/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/stella-maris/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/polyfill-uuid" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/uid" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/mailer" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nunomaduro/termwind" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/laravel/sanctum" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/laravel/sail" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/fruitcake/php-cors" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/spatie/laravel-ignition" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/spatie/backtrace" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/psr/clock" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/spatie/ignition" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/spatie/flare-client-php" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/guzzlehttp/uri-template" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/laravel/pint" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/league/flysystem-local" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/deprecations" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/lcobucci/clock" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
