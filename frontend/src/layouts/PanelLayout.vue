@@ -46,7 +46,9 @@ export default {
     }
   },
   mounted() {
-    if (!this.token) this.$router.push({ path: '/login' })
+    if (!this.token) {
+      this.$router.push({ path: '/login' })
+    }
     else if (!('id' in this.$s.user)) {
       this.checkLogin()
     }
@@ -61,14 +63,13 @@ export default {
 
       app.$axios.post(app.$s.api + 'api/v1/auth/is-login')
         .then(function (response) {
-          if (response.data.success) {
-            app.$s.user = response.data.user
-          } else {
-            localStorage.removeItem('token')
-            app.$s.user = []
-            app.$axios.defaults.headers.common['Authorization'] = ''
-            app.$router.push({ path: '/login' })
-          }
+          app.$s.user = response.data.user
+        })
+        .catch(function (error) {
+          localStorage.removeItem('token')
+          app.$s.user = []
+          app.$axios.defaults.headers.common['Authorization'] = ''
+          app.$router.push({ path: '/login' })
         })
         .finally(function () {
           app.loading = false

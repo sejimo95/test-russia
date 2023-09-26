@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Http\Controllers\Controller;
+use http\Env\Response;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -15,16 +16,16 @@ class AuthController extends Controller
     // is-login
     public function isLogin() {
         if (auth()->check()) {
-            return ['success' => true, 'user' => auth()->user()];
+            return response()->json(['user' => auth()->user()], 200);
         }
-        return ['success' => false, 'user' => null,'isLogout' => false];
+        return response()->json(['message' => 'unauthorized!', 'user' => null], 422);
     }
 
     // logout
     public function logout()
     {
         auth()->logout();
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true], 200);
     }
 
     // login
@@ -37,20 +38,15 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|max:191',
         ]);
         if ($validator->fails()) {
-            return ['success' => false,'message' => $validator->errors()->first()];
+            return response()->json(['message' => $validator->errors()->first()], 422);
         }
 
         // check pass & email
         if (!$token = auth()->attempt(['email' => $data['email'], 'password' => $data['password']])) {
-            return ['success' => false,'message' => 'Unauthorized'];
+            return response()->json(['message' => 'The password or email is incorrect'], 422);
         }
 
-        return [
-            'success' => true,
-            'user' => auth()->user(),
-            'token_type' => 'bearer',
-            'token' => $token
-        ];
+        return response()->json(['user' => auth()->user(), 'token_type' => 'bearer', 'token' => $token], 200);
     }
 
 }

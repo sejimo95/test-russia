@@ -17,7 +17,7 @@ export default boot(({ app, router, store }) => {
   axios.interceptors.response.use((response) => response, (error) => {
     if (error.response.status === 401) {
       store.user = []
-      localStorage.token = null
+      localStorage.removeItem('token')
       axios.defaults.headers.common['Authorization'] = ''
       router.push('/login');
     } else if (error.response.status === 500) {

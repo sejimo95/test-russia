@@ -80,7 +80,7 @@ module.exports = configure(function (ctx) {
           .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
       },
       env: {
-        API: (ctx.dev) ? 'http://localhost:8000/' : 'http://localhost/test-russia/backend/public/'
+        API: (ctx.dev) ? 'http://localhost:8000/' : 'https://jaklin.ir/'
       }
 
     },

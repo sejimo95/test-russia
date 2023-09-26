@@ -47,13 +47,12 @@ export default {
 
       app.$axios.post(app.$s.api + 'api/v1/auth/is-login')
         .then(function (response) {
-          if (response.data.success) {
             app.$router.push({ path: '/panel/deals' })
-          } else {
-            localStorage.removeItem('token')
-            app.$s.user = []
-            app.$axios.defaults.headers.common['Authorization'] = ''
-          }
+        })
+        .catch(function (error) {
+          localStorage.removeItem('token')
+          app.$s.user = []
+          app.$axios.defaults.headers.common['Authorization'] = ''
         })
         .finally(function () {
           app.loading = false
@@ -71,14 +70,13 @@ export default {
 
       app.$axios.post(app.$s.api + 'api/v1/auth/login', data)
         .then(function (response) {
-          if (response.data.success) {
-            localStorage.token = response.data.token
-            app.$s.user = response.data.user
-            app.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
-            app.$router.push('/panel/deals')
-          } else {
-            app.notify(response.data.message)
-          }
+          localStorage.token = response.data.token
+          app.$s.user = response.data.user
+          app.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
+          app.$router.push('/panel/deals')
+        })
+        .catch(function (error) {
+          app.notify(error.response.data.message)
         })
         .finally(function () {
           app.loading = false
