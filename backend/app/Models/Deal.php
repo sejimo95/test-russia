@@ -9,5 +9,10 @@ class Deal extends Model
 {
     use HasFactory;
     protected $table = 'deals';
-    protected $fillable = ['name', 'date', 'user_id'];
+    protected $fillable = ['id', 'name'];
+
+    public function contacts() {
+        return $this->belongsToMany(Contact::class, 'contacts_deals', 'deal_id','contact_id',);
+    }
+
 }

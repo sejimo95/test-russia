@@ -8,7 +8,7 @@ use App\Models\Deal;
 class DealController extends Controller
 {
     public function index() {
-        $index = Deal::oldest('created_at');
+        $index = Deal::withCount('contacts')->oldest('created_at');
 
         $search = request()->search;
         if($search) {

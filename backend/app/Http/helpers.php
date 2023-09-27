@@ -24,7 +24,8 @@ function getAmocrmAccessToken() {
     return '';
 }
 
-function SendRequestToAmocrm($requestType, $url, $parameters){
+function SendRequestToAmocrm($requestType, $path, $parameters = []){
+    $url = 'https://sejijon.amocrm.ru/' . $path;
     $response = Http::withHeaders([
         'Authorization' => 'Bearer ' . getAmocrmAccessToken(),
     ])->$requestType("$url", $parameters);
@@ -32,10 +33,12 @@ function SendRequestToAmocrm($requestType, $url, $parameters){
     // Unauthorized
     if ($response->status() == 401) {
         // logout
-
+        auth()->logout();
+        return ['status' => 401];
     }
 
-    return response()->json(['message' => $response->body()], $response->status());
+    return ['result' => $response->object(), 'status' => $response->status()];
 }
+
 
 ?>

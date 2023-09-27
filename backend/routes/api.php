@@ -27,6 +27,6 @@ Route::prefix('v1')->group( function () {
     });
 
     // webhooks
-    Route::get('webhooks', [WebhookController::class, 'index']);
+    Route::post('webhooks', [WebhookController::class, 'index']);
 
 });
