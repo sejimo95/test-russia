@@ -37,7 +37,8 @@ function SendRequestToAmocrm($requestType, $path, $parameters = []){
         return ['status' => 401];
     }
 
-    return ['result' => $response->object(), 'status' => $response->status()];
+    dd($response->body());
+    return ['result' => $response->object(), 'status' => $response->status(), 'message' => $response->body()];
 }
 
 
