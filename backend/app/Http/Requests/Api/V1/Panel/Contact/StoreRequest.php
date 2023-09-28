@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'  => 'required|int|exists:leads,id',
+            'id'  => 'required|int|exists:deals,id',
             'name'  => 'required|string|max:250',
             'phone' => 'required|string|max:50',
             'text'  => 'required|max:5000'

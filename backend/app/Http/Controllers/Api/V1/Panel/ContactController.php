@@ -16,6 +16,7 @@ class ContactController extends Controller
     private $noteId;
 
     public function store(StoreRequest $request) {
+
         // store log
         $logCreate = Log::create([
             'result' => 'failed',

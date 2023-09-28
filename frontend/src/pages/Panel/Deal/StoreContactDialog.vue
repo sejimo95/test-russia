@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  name: 'StatementDialog',
+  name: 'StoreContactDialog',
   props: ['dialog', 'info'],
   data () {
     return {
@@ -49,6 +49,7 @@ export default {
       const app = this
       app.loading = true
       const form = new FormData()
+      form.append('id', app._info.id)
       form.append('name', app._info.name)
       form.append('phone', app._info.phone)
       form.append('text', app._info.text)
@@ -59,10 +60,13 @@ export default {
           app.$emit('reload')
           app._dialog = false
         })
-        .catch(function (error) {})
-        .finally(function (response) {
+        .catch(function (error) {
+          const errors = error.response.data.errors
+          const errorKey = Object.keys(errors);
+          app.notify(errors[errorKey[0]])
+        })
+        .finally(function () {
           app.loading = false
-          app.notify(response.data.message)
         })
     }
   },

@@ -12,32 +12,15 @@
           @request="onRequest"
           hide-pagination
         >
-          <template v-slot:top-left>
-            Deals
-          </template>
-          <template v-slot:top-right>
-            <q-input debounce="600" filled dense v-model="filter" label="Search">
-              <template v-slot:append>
-                <q-icon name="mdi-magnify" />
-              </template>
-            </q-input>
-          </template>
+          <template v-slot:top-left>Logs</template>
           <template v-slot:body="props">
             <q-tr :props="props">
-              <q-td key="menu">
-                <q-btn flat dense round icon="mdi-dots-vertical" @click.stop.prevent v-if="props.row.contacts_count === 0">
-                  <q-menu>
-                    <q-list style="min-width: 150px;">
-                      <q-item clickable v-close-popup @click="storeData(props.row.id)">
-                        <q-item-section avatar><q-icon name="mdi-pencil" color="primary" /></q-item-section>
-                        <q-item-section>Contact Store</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-btn>
-              </q-td>
               <q-td key="id">{{ props.row.id }}</q-td>
-              <q-td key="name">{{ props.row.name }}</q-td>
+              <q-td key="result">
+                <q-badge color="red" v-if="props.row.result === 'failed'">{{props.row.result}}</q-badge>
+                <q-badge color="green" v-else>{{props.row.result}}</q-badge>
+              </q-td>
+              <q-td key="action">{{ props.row.action }}</q-td>
               <q-td key="created_at">{{ props.row.created_at }}</q-td>
               <q-td key="updated_at">{{ props.row.updated_at }}</q-td>
             </q-tr>
@@ -50,7 +33,6 @@
       </div>
     </div>
 
-    <StoreContactDialog v-model:dialog="StoreContactDialogShow" :info="StoreContactDialogData" @reload="loadData" />
     <q-inner-loading :showing="loading">
       <q-spinner size="30px" color="primary" />
     </q-inner-loading>
@@ -58,11 +40,8 @@
 </template>
 
 <script>
-import StoreContactDialog from './StoreContactDialog'
-
 export default {
-  name: 'DealIndexPage',
-  components: { StoreContactDialog },
+  name: 'LogIndexPage',
   data () {
     return {
       loading: false,
@@ -70,9 +49,9 @@ export default {
       filter: '',
       data: [],
       columns: [
-        { name: 'menu', align: 'left' },
         { name: 'id', label: 'ID', align: 'left', field: 'id' },
-        { name: 'name', label: 'Name', align: 'left', field: 'name' },
+        { name: 'result', label: 'Result', align: 'left', field: 'result' },
+        { name: 'action', label: 'Action', align: 'left', field: 'action' },
         { name: 'created_at', label: 'Create Date', align: 'left', field: 'created_at' },
         { name: 'updated_at', label: 'Update Date', align: 'left', field: 'updated_at' },
       ],
@@ -80,9 +59,7 @@ export default {
         page: 1,
         rowsPerPage: 10,
         rowsNumber: 0
-      },
-      StoreContactDialogShow: false,
-      StoreContactDialogData: []
+      }
     }
   },
   mounted() {
@@ -100,7 +77,7 @@ export default {
         }
       }
 
-      app.$axios.get(app.$s.api + 'api/v1/panel/deals', params)
+      app.$axios.get(app.$s.api + 'api/v1/panel/log', params)
         .then(function (response) {
           app.data = response.data.data
           app.rowsNumber = response.data.meta.total
@@ -115,16 +92,7 @@ export default {
     },
     loadData () {
       this.onRequest({ pagination: this.pagination, filter: this.filter })
-    },
-    storeData (dealId) {
-      this.StoreContactDialogData = {
-        id: dealId,
-        name: '',
-        phone: '',
-        text: ''
-      }
-      this.StoreContactDialogShow = true
-    },
+    }
   },
   watch: {
     'pagination.page' () {
