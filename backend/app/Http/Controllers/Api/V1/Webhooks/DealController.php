@@ -35,9 +35,6 @@ class DealController extends Controller
             // get Contact
             $contact = $this->getContact($contactEmbedded->id);
 
-            // get Notes
-            $note = $this->getNotes($contact->id);
-
             // store contact
             Contact::create([
                 'id' => $contact->id,
@@ -47,20 +44,25 @@ class DealController extends Controller
                 'updated_at' => $contact->updated_at
             ]);
 
+            // get Notes
+            $note = $this->getNotes($contact->id);
+
             // store note
-            Note::create([
-                'id' => $note->id,
-                'note_type' => $note->note_type,
-                'entity_id' => $note->entity_id,
-                'entity_type' => 'contacts',
-                'text' => $note->params->text,
-                'created_at' => $contact->created_at,
-                'updated_at' => $contact->updated_at
-            ]);
+            if($note['status']) {
+                Note::create([
+                    'id' => $note['result']->id,
+                    'note_type' => $note['result']->note_type,
+                    'entity_id' => $note['result']->entity_id,
+                    'entity_type' => 'contacts',
+                    'text' => $note['result']->params->text,
+                    'created_at' => $contact->created_at,
+                    'updated_at' => $contact->updated_at
+                ]);
+            }
         }
 
         // attach deal & contact
-        $deal->contacts()->attach($contact->id);
+        $deal->contacts()->attach($contactEmbedded->id);
         return ['status' => 200];
     }
 
@@ -75,6 +77,7 @@ class DealController extends Controller
         if(!isset($contacts[0])) {
             abort($response['status'], 'Contacts do not exist.');
         }
+
         return $contacts[0];
     }
 
@@ -95,25 +98,23 @@ class DealController extends Controller
 
     private function getNotes($contactId) {
         $path = "api/v4/contacts/$contactId/notes";
-
         $response = SendRequestToAmocrm('get', $path);
-
         if($response['status'] == 401) {
             abort(401, 'Token has expired.');
         }
 
-        if($response['status'] != 200) {
-            abort($response['status'], 'An error occurred.');
+        if (isset($response['result']->_embedded)) {
+            return ['status' => true, 'result' => $response['result']->_embedded->notes[0]];
         }
-
-        return $response['result']->_embedded->notes[0];
+        return ['status' => false];
     }
 
-    private function customFieldsValues($contact, $fieldName) {
-        foreach ($contact as $item) {
+    private function customFieldsValues($custom_fields_values, $fieldName) {
+        foreach ($custom_fields_values as $item) {
             if ($item->field_code == $fieldName) {
                 return $item->values[0]->value;
             }
         }
+        return '';
     }
 }
