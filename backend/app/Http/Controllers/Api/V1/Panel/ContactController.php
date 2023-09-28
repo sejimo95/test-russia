@@ -8,7 +8,6 @@ use App\Models\Contact;
 use App\Models\Deal;
 use App\Models\Log;
 use App\Models\Note;
-use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -16,8 +15,7 @@ class ContactController extends Controller
     private $contactId;
     private $noteId;
 
-//StoreRequest $request
-    public function store(Request $request) {
+    public function store(StoreRequest $request) {
         // store log
         $logCreate = Log::create([
             'result' => 'failed',
