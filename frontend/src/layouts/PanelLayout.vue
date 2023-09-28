@@ -19,7 +19,7 @@
             />
           </q-item-section>
         </q-item>
-        <q-item clickable exact to="/panel/deals">
+        <q-item clickable exact to="/deals">
           <q-item-section avatar>
             <q-icon name="mdi-circle-small" />
           </q-item-section>
@@ -28,7 +28,7 @@
             <q-item-label>Deals</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable exact to="/panel/logs">
+        <q-item clickable exact to="/logs">
           <q-item-section avatar>
             <q-icon name="mdi-circle-small" />
           </q-item-section>
