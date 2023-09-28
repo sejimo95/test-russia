@@ -15,16 +15,12 @@
             <q-input filled dense v-model="_info.name" />
           </div>
           <div class="col-12">
-            <div>Date</div>
-            <q-input ref="dateInput" filled dense v-model="_info.date" @click="$refs.dateInput.select()">
-              <template v-slot:prepend>
-                <q-icon color="primary" name="mdi-calendar-month">
-                  <q-menu ref="dateMenu">
-                    <q-date today-btn landscape v-model="_info.date" @update:model-value="$refs.dateMenu.hide()" />
-                  </q-menu>
-                </q-icon>
-              </template>
-            </q-input>
+            <div>Phone</div>
+            <q-input filled dense v-model="_info.phone" />
+          </div>
+          <div class="col-12">
+            <div>Text</div>
+            <q-input type="textarea" filled dense v-model="_info.text" />
           </div>
         </div>
       </q-card-section>
@@ -53,25 +49,20 @@ export default {
       const app = this
       app.loading = true
       const form = new FormData()
-      form.append('date', app._info.date)
       form.append('name', app._info.name)
-
-      var path = app.$s.api + 'api/v1/panel/client/statement'
-      if (app._info.id > 0) {
-        form.append('_method', 'PATCH');
-        path = path + '/' + app._info.id
-      }
+      form.append('phone', app._info.phone)
+      form.append('text', app._info.text)
+      var path = app.$s.api + 'api/v1/panel/contact'
 
       app.$axios.post(path, form)
-        .then(function (response) {
-          if (response.data.success) {
-            app.$emit('reload')
-            app._dialog = false
-          }
-          app.notify(response.data.message)
+        .then(function () {
+          app.$emit('reload')
+          app._dialog = false
         })
-        .finally(function () {
+        .catch(function (error) {})
+        .finally(function (response) {
           app.loading = false
+          app.notify(response.data.message)
         })
     }
   },

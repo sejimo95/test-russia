@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\Auth\AuthController;
 use App\Http\Controllers\Api\V1\Auth\AmocrmController;
 use App\Http\Controllers\Api\V1\Panel\ContactController;
 use App\Http\Controllers\Api\V1\Panel\DealController;
+use App\Http\Controllers\Api\V1\Panel\LogController;
 use App\Http\Controllers\Api\V1\Webhooks\WebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::prefix('v1')->group( function () {
     Route::prefix('panel')->middleware('auth:api')->group(function () {
         Route::get('deals', [DealController::class, 'index']);
         Route::post('contact', [ContactController::class, 'store']);
+        Route::post('log', [LogController::class, 'index']);
     });
 
     // webhooks
