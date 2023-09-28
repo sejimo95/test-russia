@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Contact;
 use App\Models\Deal;
 use App\Models\Note;
-use Illuminate\Http\Request;
 
 class DealController extends Controller
 {
@@ -22,7 +21,7 @@ class DealController extends Controller
         // store deal
         $this->leadId = $lead['id'];
         $deal = Deal::create([
-//            'id' => $lead['id'],
+            'id' => $lead['id'],
             'name' => $lead['name'],
             'created_at' => $lead['created_at'],
             'updated_at' => $lead['updated_at']
