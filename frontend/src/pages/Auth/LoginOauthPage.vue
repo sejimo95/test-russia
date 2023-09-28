@@ -5,7 +5,7 @@
       <div
         class="amocrm_oauth"
         charset="utf-8"
-        data-client-id="65f16b73-c49a-4745-9319-94317e80bbe2"
+        :data-client-id="amocrmClientId"
         data-title="Login With Amocrm"
         data-compact="false"
         data-class-name="className"
@@ -26,7 +26,8 @@ export default {
   name: 'LoginOauthPage',
   data () {
     return {
-      loading: false
+      loading: false,
+      amocrmClientId: process.env.AMOCRMCLIENTID
     }
   },
   mounted() {
@@ -42,7 +43,7 @@ export default {
 
       app.$axios.post(app.$s.api + 'api/v1/auth/is-login')
         .then(function (response) {
-            app.$router.push({ path: '/panel/deals' })
+            app.$router.push({ path: '/deals' })
         })
         .catch(function (error) {
           localStorage.removeItem('token')
@@ -73,7 +74,7 @@ export default {
       window.addEventListener('storage', function(e) {
         if (e.key === 'token') {
           app.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.token
-          app.$router.push({ path: '/panel/deals' })
+          app.$router.push({ path: '/deals' })
         }
       })
     }

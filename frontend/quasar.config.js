@@ -55,9 +55,9 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
       publicPath: 'panel',
+      distDir: 'panel',
 
       // transpile: false,
-      // publicPath: '/',
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
@@ -81,7 +81,8 @@ module.exports = configure(function (ctx) {
           .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
       },
       env: {
-        API: (ctx.dev) ? 'http://localhost:8000/' : 'https://jaklin.ir/'
+        API: (ctx.dev) ? 'http://localhost:8000/' : 'https://jaklin.ir/',
+        AMOCRMCLIENTID: (ctx.dev) ? '65f16b73-c49a-4745-9319-94317e80bbe2' : '4b8eba37-50ac-4328-b308-af035921deca',
       }
 
     },

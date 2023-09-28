@@ -10,10 +10,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AmocrmController extends Controller
 {
 
-    private $client_secret = 'lKNfq2sZwCzTSGyyTTmDgyd3jmGoW8v6CDlHy7vH6piTMVPy3UWjUke57fvH1HmD';
-
-    public function amocrm() {
-        return view('oauthAmocrm');
+    private function clientSecret() {
+        return ($_SERVER['SERVER_NAME'] == '127.0.0.1') ? 'lKNfq2sZwCzTSGyyTTmDgyd3jmGoW8v6CDlHy7vH6piTMVPy3UWjUke57fvH1HmD' : 'gnFL4IxTw1mLFG7TNmyHRVNHwAyzKzUVhqzjUAZBeYlDyj9Y6PdAE3YHXHH5oXAe';
     }
 
     public function callbackAmocrm() {
@@ -30,7 +28,7 @@ class AmocrmController extends Controller
 
         $response = Http::post("https://$referer/oauth2/access_token", [
             'client_id' => $client_id,
-            'client_secret' => $this->client_secret,
+            'client_secret' => $this->clientSecret(),
             'code' => $code,
             'grant_type' => 'authorization_code',
             'redirect_uri' => url('api/v1/auth/callback/amocrm'),
